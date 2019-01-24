@@ -12,10 +12,10 @@ const gameBoard = (() => {
   const render = () => {
     // creates the DOM board using the board variable.
   };
-  const addMark = (mark, spot) {
+  const addMark = (mark, spot) => {
     // code
   }
-  return {renderBoard, addMark}
+  return {board, addMark}
 })();
 
 
