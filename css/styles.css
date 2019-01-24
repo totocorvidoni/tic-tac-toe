@@ -343,7 +343,7 @@ template {
   box-sizing: border-box;
 }
 
-#cells {
+.cell, #cells {
   display: grid;
 }
 
@@ -362,7 +362,12 @@ template {
 }
 
 .cell {
+  place-items: center;
   background: #fff;
+}
+.cell img {
+  width: 75%;
+  height: 75%;
 }
 
 /*# sourceMappingURL=styles.css.map */

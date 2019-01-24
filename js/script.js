@@ -2,20 +2,30 @@ const playerFactory = (name, mark) => {
   return{name, mark}
 }
 
-const player1 = playerFactory('Pupe', 'X')
-const player2 = playerFactory('Toti', 'O')
+const player1 = playerFactory('Pupe', 'x')
+const player2 = playerFactory('Toti', 'o')
 
 const gameBoard = (() => {
-  const board = [['X', 'X', 'X'],
-                 ['O', 'O', 'O'],
-                 ['X', 'X', 'X']];
+  let board = [['x', 'x', 'x'],
+               ['o', 'o', 'o'],
+               ['x', 'x', 'x']];
   const render = () => {
     // creates the DOM board using the board variable.
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach((cell) => {
+      let mark = board[cell.dataset.cellId[0]][cell.dataset.cellId[1]]
+      if(mark !== '') {
+        let element = document.createElement('img');
+        element.setAttribute('src', `images/${mark}.svg`);
+        cell.appendChild(element);
+      } 
+    });
+
   };
   const addMark = (mark, spot) => {
     // code
   }
-  return {board, addMark}
+  return {render, addMark}
 })();
 
 

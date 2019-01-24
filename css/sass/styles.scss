@@ -26,5 +26,12 @@
 }
 
 .cell {
+  @extend %grid;
+  place-items: center;
   background: #fff;
+  img {
+    width: 75%;
+    height: 75%;
+  }
 }
+
