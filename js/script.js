@@ -9,10 +9,11 @@ const gameBoard = (() => {
   let board = [['x', 'x', 'x'],
                ['o', 'o', 'o'],
                ['x', 'x', 'x']];
+  const cells = document.querySelectorAll('.cell');               
+  // creates the DOM board using the board variable.
   const render = () => {
-    // creates the DOM board using the board variable.
-    const cells = document.querySelectorAll('.cell');
     cells.forEach((cell) => {
+      cell.innerHTML = '';
       let mark = board[cell.dataset.cellId[0]][cell.dataset.cellId[1]]
       if(mark !== '') {
         let element = document.createElement('img');
