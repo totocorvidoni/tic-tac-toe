@@ -8,7 +8,7 @@ const Players = (() => {
   const getSecond = () => two;
   const getActive = () => active;
   const create = function(name, mark) { return {name, mark} };
-  const add = function(name, mark) {
+  const add = (name, mark) => {
     player = create(name, mark);
     if (one === undefined) {
       one = player;
@@ -23,38 +23,33 @@ const Players = (() => {
 })();
 
 const GameBoard = (() => {
-  let board = [['x', 'x', 'x'],
-               ['o', 'o', 'o'],
-               ['x', 'x', 'x']];
+  let board = [['', '', ''],
+               ['', '', ''],
+               ['', '', '']];
   // creates the DOM board using the board variable.
-  const render = () => {
-    cells.forEach((cell) => {
-      cell.innerHTML = '';
-      let mark = board[cell.dataset.cellId[0]][cell.dataset.cellId[1]]
-      if(mark !== '') {
-        let element = document.createElement('img');
-        element.setAttribute('src', `images/${mark}.svg`);
-        cell.appendChild(element);
-      } 
-    });
+  const render = (cell) => {
+    let mark = board[cell.dataset.cellId[0]][cell.dataset.cellId[1]]
+    if(mark !== '') {
+      let element = document.createElement('img');
+      element.setAttribute('src', `images/${mark}.svg`);
+      cell.appendChild(element);
+    }
   };
-  const addMark = (cord) => {
-    spot = board[cord[0]][cord[1]]
-    mark = players.active.mark;
-    if(spot = '') spot = mark;
+  const addMark = (cord, mark) => {
+    board[cord[0]][cord[1]] = mark;
   }
   const reset = () => {
-    board = [['', '', ''], ['', '', ''], ['', '', '']]
+    board = [['', '', ''], ['', '', ''], ['', '', '']];
+    cells.forEach((cell) => {
+      cell.innerHTML = '';
+    })
   }
-  return {render, addMark, reset}
+  return {render,reset, addMark}
 })();
 
 
 const GameState = (() => {
   
-  const play = () => {
-    // perfom all the methods needed to make a move
-  }
   const endCheck = () => {
     // check if a game over conditions has been met
   }
@@ -66,7 +61,19 @@ const GameState = (() => {
   } 
 
   return {}
-
 })();
 
+const playOn = (e) => {
+  if(e.currentTarget.innerHTML == '') {
+    GameBoard.addMark(e.currentTarget.dataset.cellId, Players.getActive().mark);
+    Players.swap();
+    GameBoard.render(e.currentTarget);
+  }
+}
 
+cells.forEach(function(cell) {
+  cell.addEventListener('click', playOn);
+});
+
+Players.add('toti', 'x');
+Players.add('pupe', 'o');
