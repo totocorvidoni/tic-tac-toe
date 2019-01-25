@@ -1,15 +1,31 @@
-const playerFactory = (name, mark) => {
-  return{name, mark}
-}
+const cells = document.querySelectorAll('.cell');
 
-const player1 = playerFactory('Pupe', 'x')
-const player2 = playerFactory('Toti', 'o')
+const Players = (() => {
+  let one;
+  let two;
+  let active;
+  const getFirst = () => one;
+  const getSecond = () => two;
+  const getActive = () => active;
+  const create = function(name, mark) { return {name, mark} };
+  const add = function(name, mark) {
+    player = create(name, mark);
+    if (one === undefined) {
+      one = player;
+      active = one
+    } else if (two === undefined) {
+      two = player
+    } 
+  }
+  const swap = () => active = (active === one) ? two : one;
 
-const gameBoard = (() => {
+  return {getFirst, getSecond, getActive,add, swap}
+})();
+
+const GameBoard = (() => {
   let board = [['x', 'x', 'x'],
                ['o', 'o', 'o'],
                ['x', 'x', 'x']];
-  const cells = document.querySelectorAll('.cell');               
   // creates the DOM board using the board variable.
   const render = () => {
     cells.forEach((cell) => {
@@ -21,23 +37,26 @@ const gameBoard = (() => {
         cell.appendChild(element);
       } 
     });
-
   };
-  const addMark = (mark, spot) => {
-    // code
+  const addMark = (cord) => {
+    spot = board[cord[0]][cord[1]]
+    mark = players.active.mark;
+    if(spot = '') spot = mark;
   }
-  return {render, addMark}
+  const reset = () => {
+    board = [['', '', ''], ['', '', ''], ['', '', '']]
+  }
+  return {render, addMark, reset}
 })();
 
 
-const gameState = (() => {
-  let turn = 0
-  let activePlayer = player1
+const GameState = (() => {
+  
+  const play = () => {
+    // perfom all the methods needed to make a move
+  }
   const endCheck = () => {
     // check if a game over conditions has been met
-  }
-  const switchPlayer = () => {
-    // swaps activePlayer
   }
   const win = (player) => {
     // win game for player
@@ -49,3 +68,5 @@ const gameState = (() => {
   return {}
 
 })();
+
+
