@@ -1,4 +1,8 @@
-const cells = document.querySelectorAll('.cell');
+const cells = document.querySelectorAll('.cell')
+const resetButton = document.querySelector('#reset')
+const playerOneTag = document.querySelector('#p1')
+const playerTwoTag = document.querySelector('#p2')
+const playerNames = document.querySelectorAll('.player h2')
 
 const Players = (() => {
   let one
@@ -9,17 +13,21 @@ const Players = (() => {
   const getActive = () => active
   const create = function(name, mark) { return {name, mark} }
   const add = (name, mark) => {
-    player = create(name, mark)
     if (one === undefined) {
-      one = player;
+      player = create(name, 'x')
+      one = player
       active = one
     } else if (two === undefined) {
+      player = create(name, 'o')
       two = player
     } 
   }
   const swap = () => active = (active === one) ? two : one
-  return {getFirst, getSecond, getActive,add, swap}
-})();
+  const reset = () => {
+    if(getActive() == two) swap()
+  }
+  return {getFirst, getSecond, getActive, add, swap, reset}
+})()
 
 const GameBoard = (() => {
   let board = ['', '', '', '', '', '', '', '', '']
@@ -30,63 +38,88 @@ const GameBoard = (() => {
   const render = (cell) => {
     let mark = board[cell.dataset.cellId]
     if(mark !== '') {
-      let element = document.createElement('img');
-      element.setAttribute('src', `images/${mark}.svg`);
-      cell.appendChild(element);
+      let element = document.createElement('img')
+      element.setAttribute('src', `images/${mark}.svg`)
+      cell.appendChild(element)
     }
-  };
+  }
   const reset = () => {
-    let board = ['', '', '', '', '', '', '', '', ''];
+    board = ['', '', '', '', '', '', '', '', '']
     cells.forEach((cell) => {
-      cell.innerHTML = '';
+      cell.innerHTML = ''
     })
   }
   const addMark = (spot, mark) => {
-    board[spot] = mark;
+    board[spot] = mark
   }
-
   const winCheck = () => {
-    let winner;
+    let winner
     wins.forEach(cond => {
-      win = [board[cond[0]], board[cond[1]], board[cond[2]]];
+      win = [board[cond[0]], board[cond[1]], board[cond[2]]]
       if (win.every(cell => cell == 'x')) {
-        winner = 'x';
+        winner = 'x'
       } else if (win.every(cell => cell == 'o')) {
         winner = 'o'
       }
     })
-    return winner;
+    return winner
   }
   return {render,reset, addMark, winCheck}
-})();
+})()
 
 
 const GameState = (() => {
-  
-  const endCheck = () => {
-    // check if a game over conditions has been met
+  let turn = 1
+  const nextTurn = () => ++turn
+  const endCheck = () => (GameBoard.winCheck()) ? win() : (turn == 9) ? tie() : undefined
+  const win = () => { 
+    alert(`${Players.getActive().name} wins!`)
+    resetGame()
   }
-  const win = (player) => {
-    // win game for player
+  const tie = () => { 
+    alert('its a tie')
+    resetGame()
   }
-  const tie = () => {
-    // Tie the game
-  } 
+  const reset = () => {
+    turn = 1
+  }
+  return { nextTurn, endCheck, reset}
+})()
 
-  return {}
-})();
+/* Global */
+
+const newPlayers = () => {
+  let playerNumber = 1
+  playerNames.forEach(player => {
+    name = prompt(`Player ${playerNumber}, what is your name?`)
+    Players.add(name)
+    text = document.createTextNode(name)
+    player.appendChild(text)
+    playerNumber++
+  })
+}
 
 const playOn = (e) => {
   if(e.currentTarget.innerHTML == '') {
-    GameBoard.addMark(e.currentTarget.dataset.cellId, Players.getActive().mark);
-    Players.swap();
-    GameBoard.render(e.currentTarget);
+    GameBoard.addMark(e.currentTarget.dataset.cellId, Players.getActive().mark)
+    GameBoard.render(e.currentTarget)
+    if(GameState.endCheck() == undefined) {
+      Players.swap()
+      GameState.nextTurn()
+    }
   }
 }
 
-cells.forEach(function(cell) {
-  cell.addEventListener('click', playOn);
-});
+const resetGame = () => {
+  GameBoard.reset()
+  GameState.reset()
+  Players.reset()
+}
 
-Players.add('toti', 'x');
-Players.add('pupe', 'o');
+/* Script */
+
+cells.forEach(function(cell) {
+  cell.addEventListener('click', playOn)
+})
+resetButton.addEventListener('click', resetGame)
+newPlayers()

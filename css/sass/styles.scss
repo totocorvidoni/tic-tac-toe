@@ -1,17 +1,93 @@
 @import 'normalize';
 
+/* Global and Rules */
+
+$font-title: 'Righteous', Arial, sans-serif;
+$font-main: 'Lato', Arial, sans-serif;
+$background: linear-gradient(to left top, #0b1341, #b52e79, #f4c140) fixed;
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: #444;
+  transition: all 0.30s ease;
 }
+
+img {
+  fill: #444;
+}
+
 
 %grid {
   display: grid;
 }
 
-#board {
+%center-childs {
+  display: grid;
+  place-items: center;
+}
+
+
+%white-box {
   background: #fff;
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, .1);
+}
+
+/* Layout */
+
+body {
+  background: $background;
+}
+
+.container {
+  @extend %center-childs;
+}
+
+header {
+  @extend %white-box;
+  border-bottom-right-radius: 25%;
+  border-bottom-left-radius: 25%;
+  margin-bottom: 3em;
+  padding: 0 2em;
+  font-family: $font-title;
+}
+
+#game-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2em;
+  font-family: $font-main;
+}
+
+#players {
+  padding: .5em;
+  align-self: start;
+  justify-self: end;
+  margin-top: 5rem;
+}
+
+.player {
+  @extend %white-box;
+  display: flex;
+  align-content: center;
+  padding: 1em .5em;
+  margin-bottom: 15px;
+  border-radius: .50em;
+
+  img {
+    width: 30px;
+    margin-right: 10px;
+  }
+
+  h2 {
+    margin: auto 0;
+  }
+}
+
+#board {
+  @extend %white-box;
+  border-radius: 10%;
   padding: 2em;
 }
 
@@ -20,7 +96,7 @@
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows:    repeat(3, 1fr);
   grid-gap: 1em;
-  background: #333;
+  background: $background;
   width: 30em;
   height: 30em;
 }
@@ -29,9 +105,73 @@
   @extend %grid;
   place-items: center;
   background: #fff;
+
   img {
     width: 75%;
     height: 75%;
   }
 }
 
+// Transition done using opacity since linear gradients aren't animateable.
+#reset {
+  @extend %white-box;
+  position: relative;
+  background: linear-gradient(to left top, #0b1341, #b52e79);
+  align-self: end;
+  justify-self: start;
+  margin-bottom: 5rem;
+  padding: .5em;
+  font-size: 2em;
+  font-weight: 700;
+  color: #fff;
+  border: 5px solid #fff;
+  border-radius: .25em;
+  transition: all 0.1s ease-out;
+  z-index: 100;
+
+  &:before {
+    border-radius: inherit;
+    background: linear-gradient(to right top, #0b1341, #b52e79);
+    content: '';    
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    width: 100%;
+    z-index: -100;
+    transition: opacity 0.45s;
+  }
+
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
+  }
+}
+
+@media (max-width: 900px ) {
+  #game-area {
+    grid-template-columns: 1fr;
+    grid-gap: 1em;
+  }
+
+  #players {
+    justify-self: center;
+    justify-content: center;
+    display: flex;
+    margin-top: 0;
+  }
+
+  .player {
+    margin-bottom: 0;
+  }
+
+  .player:first-child {
+    margin-right: 25px;
+  }
+
+  #reset {
+    justify-self: center;
+  }
+}

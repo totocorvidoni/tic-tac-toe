@@ -337,18 +337,77 @@ template {
   display: none;
 }
 
+/* Global and Rules */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: #444;
+  transition: all 0.3s ease;
+}
+
+img {
+  fill: #444;
 }
 
 .cell, #cells {
   display: grid;
 }
 
-#board {
+.container {
+  display: grid;
+  place-items: center;
+}
+
+#reset, #board, .player, header {
   background: #fff;
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Layout */
+body {
+  background: linear-gradient(to left top, #0b1341, #b52e79, #f4c140) fixed;
+}
+
+header {
+  border-bottom-right-radius: 25%;
+  border-bottom-left-radius: 25%;
+  margin-bottom: 3em;
+  padding: 0 2em;
+  font-family: "Righteous", Arial, sans-serif;
+}
+
+#game-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2em;
+  font-family: "Lato", Arial, sans-serif;
+}
+
+#players {
+  padding: 0.5em;
+  align-self: start;
+  justify-self: end;
+  margin-top: 5rem;
+}
+
+.player {
+  display: flex;
+  align-content: center;
+  padding: 1em 0.5em;
+  margin-bottom: 15px;
+  border-radius: 0.5em;
+}
+.player img {
+  width: 30px;
+  margin-right: 10px;
+}
+.player h2 {
+  margin: auto 0;
+}
+
+#board {
+  border-radius: 10%;
   padding: 2em;
 }
 
@@ -356,7 +415,7 @@ template {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-gap: 1em;
-  background: #333;
+  background: linear-gradient(to left top, #0b1341, #b52e79, #f4c140) fixed;
   width: 30em;
   height: 30em;
 }
@@ -368,6 +427,65 @@ template {
 .cell img {
   width: 75%;
   height: 75%;
+}
+
+#reset {
+  position: relative;
+  background: linear-gradient(to left top, #0b1341, #b52e79);
+  align-self: end;
+  justify-self: start;
+  margin-bottom: 5rem;
+  padding: 0.5em;
+  font-size: 2em;
+  font-weight: 700;
+  color: #fff;
+  border: 5px solid #fff;
+  border-radius: 0.25em;
+  transition: all 0.1s ease-out;
+  z-index: 100;
+}
+#reset:before {
+  border-radius: inherit;
+  background: linear-gradient(to right top, #0b1341, #b52e79);
+  content: "";
+  display: block;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  z-index: -100;
+  transition: opacity 0.45s;
+}
+#reset:hover:before {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  #game-area {
+    grid-template-columns: 1fr;
+    grid-gap: 1em;
+  }
+
+  #players {
+    justify-self: center;
+    justify-content: center;
+    display: flex;
+    margin-top: 0;
+  }
+
+  .player {
+    margin-bottom: 0;
+  }
+
+  .player:first-child {
+    margin-right: 25px;
+  }
+
+  #reset {
+    justify-self: center;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

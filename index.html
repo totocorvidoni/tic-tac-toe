@@ -1,23 +1,41 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Tic Tac Toe</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Tic-Tac-Toe</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato|Righteous" rel="stylesheet"> 
+  <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Tic Tac Toe</h1>
-  <div id="board">
-    <div id="cells">
-      <div class="cell" data-cell-id="0"></div>
-      <div class="cell" data-cell-id="1"></div>
-      <div class="cell" data-cell-id="2"></div>
-      <div class="cell" data-cell-id="3"></div>
-      <div class="cell" data-cell-id="4"></div>
-      <div class="cell" data-cell-id="5"></div>
-      <div class="cell" data-cell-id="6"></div>
-      <div class="cell" data-cell-id="7"></div>
-      <div class="cell" data-cell-id="8"></div>
-    </div>
+  <div class="container">
+    <header>
+      <h1>Tic-Tac-Toe</h1>  
+    </header>    
+    <main id="game-area">
+      <aside id="players">
+        <div id="p1" class="player">
+          <img src="images/x.svg" alt="">
+          <h2></h2>
+        </div>
+        <div id="p2" class="player">
+          <img src="images/o.svg" alt="">
+          <h2></h2>
+        </div>
+      </aside>
+      <div id="board">
+        <div id="cells">
+          <div class="cell" data-cell-id="0"></div>
+          <div class="cell" data-cell-id="1"></div>
+          <div class="cell" data-cell-id="2"></div>
+          <div class="cell" data-cell-id="3"></div>
+          <div class="cell" data-cell-id="4"></div>
+          <div class="cell" data-cell-id="5"></div>
+          <div class="cell" data-cell-id="6"></div>
+          <div class="cell" data-cell-id="7"></div>
+          <div class="cell" data-cell-id="8"></div>
+        </div>
+      </div>
+      <button id="reset">Reset</button>
+    </main>
   </div>
   <script src="js/script.js"></script>
 </body>
